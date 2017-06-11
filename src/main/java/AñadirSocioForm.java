@@ -11,7 +11,7 @@ public class AñadirSocioForm {
     private JPanel añadirSociPanel;
     private JTextField nameText;
     private JComboBox comboBoxDia;
-    private JComboBox<Integer> comboBoxAño;
+    private JComboBox comboBoxAño;
     private JComboBox comboBoxMes;
     private JRadioButton hombreRadioButton;
     private JRadioButton mujerRadioButton;
@@ -30,10 +30,7 @@ public class AñadirSocioForm {
     private JTextField emailText;
 
     public AñadirSocioForm() {
-        for (int i = 2017; i > 1899; i--) {
-            getComboBoxAño().addItem(i);
-        }
-        Main.frame.add(getComboBoxAño());
+        fillComboBox();
 
         cancelarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -48,8 +45,10 @@ public class AñadirSocioForm {
                 try {
                     DataBase.dataBase.insertSocio(getDniText().getText(),
                             getNameText().getText(), getPrimerApellido().getText(), getSegundoApellido().getText(),
-                            getDireccionText().getText(), Integer.parseInt(getCpText().getText()), getProvinciaText().getText(),
-                            getPaisText().getText(), Integer.parseInt(getTel1Text().getText()), (Integer.parseInt(getTel2Text().getText())),
+                            (Integer) comboBoxAño.getSelectedItem(), comboBoxMes.getSelectedIndex()+1,
+                            (Integer) comboBoxDia.getSelectedItem(), getGenero(),getDireccionText().getText(),
+                            Integer.parseInt(getCpText().getText()), getProvinciaText().getText(), getPaisText().getText(),
+                            Integer.parseInt(getTel1Text().getText()), (Integer.parseInt(getTel2Text().getText())),
                             getEmailText().getText());
                     JOptionPane.showMessageDialog(null, "Se ha añadido correctamente");
                 } catch (Exception ex) {
@@ -130,5 +129,25 @@ public class AñadirSocioForm {
 
     public JTextField getEmailText() {
         return emailText;
+    }
+
+    private void fillComboBox() {
+        for (int i = 2017; i > 1899; i--) {
+            this.comboBoxAño.addItem(i);
+        }
+
+        String[] meses =  {"Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        for (int i = 0; i < 12; i++) {
+            this.comboBoxMes.addItem(meses[i]);
+        }
+
+        for (int i = 1; i < 32; i++) {
+            this.comboBoxDia.addItem(i);
+        }
+    }
+
+    private String getGenero() {
+        if (hombreRadioButton.isSelected()) return "HOMBRE";
+        else return "MUJER";
     }
 }

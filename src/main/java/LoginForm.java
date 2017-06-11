@@ -15,7 +15,7 @@ public class LoginForm {
 
     private boolean checkLogin;
 
-    public LoginForm() throws Exception{
+    public LoginForm() {
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
